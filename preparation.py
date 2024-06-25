@@ -64,13 +64,15 @@ def is_serpertine(mat: list) -> bool:
     if not is_square(mat) or mat[0][0] != 1:
         return False
 
-    for i in range(len(mat)):
-        if i % 2 == 0:
-            if mat[i] != sorted(mat[i]):
-                return False
-        else:
-            if mat[i] != sorted(mat[i], reverse=True):
-                return False
+    n = len(mat)
+    for i in range(n):
+        for j in range(1, n):
+            if i % 2 == 0:  # Check ascending order for even rows
+                if not mat[i][j] - mat[i][j - 1] == 1:
+                    return False
+            else:  # Check descending order for odd rows
+                if not mat[i][j - 1] - mat[i][j] == 1:
+                    return False
 
     return True
 

@@ -48,6 +48,7 @@ class TestIsSerpertine(unittest.TestCase):
 
     def test_serpertine_false(self):
         self.assertFalse(is_serpertine([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+        self.assertFalse(is_serpertine([[1, 3, 3], [6, 5, 4], [7, 8, 9]]))
 
     def test_serpertine_false_even_row_not_ascending(self):
         self.assertFalse(is_serpertine([[1, 3, 2], [6, 5, 4], [7, 8, 9]]))
@@ -62,7 +63,7 @@ class TestIsSerpertine(unittest.TestCase):
         self.assertFalse(is_serpertine([[1, 2, 3]]))
 
     def test_varying_length_rows(self):
-        self.assertFalse(is_serpertine([[1, 2], [3, 2, 1], [4, 5, 6]]))
+        self.assertFalse(is_serpertine([[1, 2], [5, 4, 3], [6, 7, 8]]))
 
     def test_single_element_matrix(self):
         self.assertTrue(is_serpertine([[1]]))
@@ -75,6 +76,7 @@ class TestIsSerpertine(unittest.TestCase):
 
     def test_2x2_matrix_false(self):
         self.assertFalse(is_serpertine([[1, 2], [3, 4]]))
+        self.assertFalse(is_serpertine([[1, 2], [4, 4]]))
 
 
 class TestIsIdentity(unittest.TestCase):
