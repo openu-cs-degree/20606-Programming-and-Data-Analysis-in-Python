@@ -268,6 +268,7 @@ class TestMatMul2(unittest.TestCase):
     def test_simple(self):
         self.assertTrue(max_mul2([1, 2]) == 2)
         self.assertTrue(max_mul2([-1, -2]) == 2)
+        self.assertTrue(max_mul2([1, -2]) == -2)
 
     def test_large(self):
         self.assertTrue(max_mul2([1, 2, 3, 4, 5]) == 20)
@@ -278,6 +279,7 @@ class TestMatMul2(unittest.TestCase):
         self.assertTrue(max_mul2([5, 5, 5, 5, 5]) == 25)
 
     def test_spread(self):
+        self.assertTrue(max_mul2([-1, 2, -3]) == 3)
         self.assertTrue(max_mul2([-1, 2, -3, 4]) == 8)
         self.assertTrue(max_mul2([1, -2, 3, -4, 5]) == 15)
 
