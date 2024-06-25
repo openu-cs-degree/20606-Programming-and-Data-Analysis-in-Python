@@ -1,0 +1,133 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{multicol}
+
+% Reduce spacing
+\usepackage{enumitem}
+\setlist{nosep} % Remove space around list items
+\usepackage{titlesec}
+\titlespacing{\section}{0pt}{1ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+\titlespacing{\subsection}{0pt}{0.75ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codemagenta}{rgb}{0.75, 0.0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codemagenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{Python Exam Cheatsheet --- 20606}
+\author{Anastasia Zarankin \& Yehonatan Simian}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Allowed Functions}
+
+\subsection{Built-in Functions}
+\begin{multicols}{4}
+  \begin{itemize}
+      \item abs
+      \item float
+      \item input
+      \item int
+      \item isinstance
+      \item len
+      \item list
+      \item max
+      \item min
+      \item pow
+      \item print
+      \item range
+      \item sorted
+      \item str
+      \item sum
+      \item tuple
+  \end{itemize}
+\end{multicols}
+
+\subsection{String Methods}
+\begin{multicols}{4}
+  \begin{itemize}
+      \item slicing
+      \item in
+      \item +
+  \end{itemize}
+\end{multicols}
+
+\subsection{List Methods}
+\begin{multicols}{4}
+  \begin{itemize}
+      \item slicing
+      \item in
+      \item +
+      \item sort
+      \item pop
+      \item copy
+      \item append
+  \end{itemize}
+\end{multicols}
+
+\subsection{Examples}
+
+\begin{lstlisting}[language=Python]
+print(abs(-5))              # Output: 5
+print(float(5))             # Output: 5.0
+user_input = input("Enter something: ")  # Waits for user input
+print(int("5"))             # Output: 5
+print(isinstance(5, int))   # Output: True
+print(len("Hello"))         # Output: 5
+print(list("Hello"))        # Output: ['H', 'e', 'l', 'l', 'o']
+print(max(1, 5, 3))         # Output: 5
+print(min(1, 5, 3))         # Output: 1
+print(pow(2, 3))            # Output: 8
+print("Hello, World!")      # Output: Hello, World!
+print(list(range(5)))       # Output: [0, 1, 2, 3, 4]
+print(sorted([3, 1, 2]))    # Output: [1, 2, 3]
+print(str(5))               # Output: '5'
+print(sum([1, 2, 3]))       # Output: 6
+print(tuple([1, 2, 3]))     # Output: (1, 2, 3)
+\end{lstlisting}
+
+\section{Recursive search for element in a list}
+
+\begin{lstlisting}[language=Python]
+def indexof(num, lst):
+    if len(lst) == 0:
+        return -1
+    if lst[0] == num:
+        return 0
+    index = indexof(num, lst[1:])
+    if index != -1:
+        index += 1
+    return index
+\end{lstlisting}
+
+\end{document}
