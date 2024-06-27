@@ -247,6 +247,7 @@ class TestMinusPlus(unittest.TestCase):
 
     def test_odd_length(self):
         self.assertFalse(minus_plus([1, -1, 2]))
+        self.assertTrue(minus_plus([1, -1, -1, -1]))
         self.assertFalse(minus_plus([-3, 3, 4, -4, 5]))
 
     def test_even_length_without_twins(self):

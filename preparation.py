@@ -138,20 +138,7 @@ def minus_plus(lst: list) -> bool:
     def helper(sublist: list) -> bool:
         if not sublist:
             return True
-        current = sublist[0]
-        twin = -current
-        twin_index = find_twin_index(sublist[1:], twin)
-        if twin_index == -1:
-            return False
-        new_sublist = sublist[1:twin_index] + sublist[twin_index + 1 :]
-        return helper(new_sublist)
-
-    def find_twin_index(sublist: list, twin: int, index: int = 0) -> int:
-        if index >= len(sublist):
-            return -1
-        if sublist[index] == twin:
-            return index + 1
-        return find_twin_index(sublist, twin, index + 1)
+        return exist(-sublist[0], lst) and helper(sublist[1:])
 
     return helper(lst)
 
