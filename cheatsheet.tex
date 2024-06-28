@@ -5,6 +5,7 @@
 \usepackage{color}
 \usepackage{multicol}
 \usepackage{hyperref}
+\usepackage{cleveref}
 \usepackage[margin=1.75cm]{geometry}
 \usepackage[theorems]{tcolorbox} % for producing coloured boxes
 \tcbuselibrary{theorems} % theorems with tcolorbox
@@ -64,7 +65,7 @@
   \item All code must be well documented.
   \item Begin algorithms with a brief explanation.
   \item Algorithms must be as efficient as possible.
-  \item Allowed functions are described in~\ref{sec:allowed-functions}.
+  \item Allowed functions are described in~\cref{sec:allowed-functions}.
 \end{itemize}
 
 \subsection{Forum Instructions}
@@ -265,7 +266,27 @@ def max_sort(lst):
   return max_sort(lst[:-1]) + [lst[-1]]
 \end{lstlisting}
 
-\section{Preparation Exercises}
+\section{Preparation Exercises}\label{sec:preparation-exercises}
+\begin{lstlisting}
+def maximal_drop(lst):
+  # Calculate the maximal drop between two heights in a list.
+  if not lst:
+    return 0
+
+  max_drop = 0
+  max_height_so_far = lst[0]
+
+  for height in lst:
+    if height > max_height_so_far:
+      max_height_so_far = height
+    else:
+      drop = max_height_so_far - height
+      if drop > max_drop:
+        max_drop = drop
+
+  return max_drop
+\end{lstlisting}
+
 \begin{lstlisting}
 def is_serpertine(mat):
   if not is_square(mat) or mat[0][0] != 1:
@@ -281,20 +302,8 @@ def is_serpertine(mat):
 
   return True
 \end{lstlisting}
-\begin{lstlisting}
-def is_identity(mat, x, size):
-  if not is_square(mat) or x < 0 or x + size > len(mat) or size < 1:
-    return False
 
-  for i in range(size):
-    for j in range(size):
-      if (i == j and mat[x + i][x + j] != 1) or (
-          i != j and mat[x + i][x + j] != 0
-      ):
-        return False
-
-  return True
-\end{lstlisting}
+\vspace{0.25cm}
 
 \begin{multicols}{2}
 \begin{lstlisting}
@@ -319,26 +328,47 @@ def max_matrix(mat):
 \end{lstlisting}
 \end{multicols}
 
+\vspace{-0.25cm}
+
+\begin{multicols}{2}
 \begin{lstlisting}
 def minus_plus(lst):
-  # Check if each element has a negative twin.
+  # Check if each num has a negative twin.
   if len(lst) % 2 != 0:
     return False
 
   def helper(sublist):
     if not sublist:
       return True
-  return exist(-sublist[0], lst) and helper(sublist[1:])
+    twin = exist(-sublist[0], lst)
+    return twin and helper(sublist[1:])
 
   return helper(lst)
 \end{lstlisting}
+\begin{lstlisting}
+def secret(s1, s2, key):
+  # Check if s2 is derived from the s1.
+  if len(s1) != len(s2):
+    return False
+  def helper(index):
+    if index == len(s1):
+      return True
+    c = ord(s1[index]) + key + index
+    if c != ord(s2[index]):
+      return False
+    return helper(index + 1)
+  return helper(0)
+\end{lstlisting}
+\end{multicols}
 
+\vspace{-0.25cm}
+
+\begin{multicols}{2}
 \begin{lstlisting}
 def max_mul2(lst):
   # Find the largest possible product of two elements in a list.
   max1 = max2 = float("-inf")
   min1 = min2 = float("inf")
-
   for num in lst:
     # Update the two largest values
     if num > max1:
@@ -346,37 +376,14 @@ def max_mul2(lst):
       max1 = num
     elif num > max2:
       max2 = num
-
     # Update the two smallest values
     if num < min1:
       min2 = min1
       min1 = num
     elif num < min2:
       min2 = num
-
   return max(max1 * max2, min1 * min2)
 \end{lstlisting}
-
-\begin{lstlisting}
-def secret(s1, s2, key):
-  # Determines if the second string is derived from the first string using the key.
-  if len(s1) != len(s2):
-    return False
-
-  def helper(index):
-    if index == len(s1):
-      return True
-    if ord(s1[index]) + key + index != ord(s2[index]):
-      return False
-    return helper(index + 1)
-
-  return helper(0)
-\end{lstlisting}
-
-\begin{lstlisting}
-# TODO: Implement
-\end{lstlisting}
-
 \begin{lstlisting}
 def print_pairs(arr, k):
   # Print all pairs in the list whose difference is exactly k.
@@ -397,28 +404,40 @@ def print_pairs(arr, k):
     else:
       right += 1
 \end{lstlisting}
+\end{multicols}
 
 \begin{lstlisting}
-def maximal_drop(lst):
-  # Calculate the maximal drop between two heights in a list.
-  if not lst:
-    return 0
+def is_identity(mat, x, size):
+  if not is_square(mat) or x < 0 or x + size > len(mat) or size < 1:
+    return False
 
-  max_drop = 0
-  max_height_so_far = lst[0]
+  for i in range(size):
+    for j in range(size):
+      if (i == j and mat[x + i][x + j] != 1) or (
+          i != j and mat[x + i][x + j] != 0
+      ):
+        return False
 
-  for height in lst:
-    if height > max_height_so_far:
-      max_height_so_far = height
-    else:
-      drop = max_height_so_far - height
-      if drop > max_drop:
-        max_drop = drop
-
-  return max_drop
+  return True
 \end{lstlisting}
 
-\subsection{Exercise 10: Coffee Shop}
+\begin{lstlisting}
+def bulls_and_cows(number, guess):
+  def helper(number, guess, guess_index):
+      if guess_index >= len(guess):
+          return 0
+      number_index = index_of(guess[guess_index], number)
+      points = 0
+      if number_index != -1:
+          points += 1
+      if number_index == guess_index:
+          points += 1
+      return points + helper(number, guess, guess_index + 1)
+
+  return helper(number, guess, 0)
+\end{lstlisting}
+
+\subsection{Exercise 10: Coffee Shop}\label{subsec:exercise-10}
 \begin{lstlisting}
 class Date:
   def __init__(self, d, m, y):
@@ -482,7 +501,7 @@ class CashRegister:
     return filtered_orders if filtered_orders else None
 \end{lstlisting}
 
-\subsection{Exercise 11: Contacts List}
+\subsection{Exercise 11: Contacts List}\label{subsec:exercise-11}
 
 \begin{lstlisting}
 class Person:
@@ -515,5 +534,93 @@ class ContactsList:
       months[contact._birth._month] += 1
     return [(i, months[i]) for i in range(1, 13)]
 \end{lstlisting}
+
+\section{Maman 13}
+Note:
+\begin{itemize}
+  \item Maman 11 is \code{bulls\_and\_cows} that's implemented in~\cref{sec:preparation-exercises}.
+  \item Maman 12 is \code{tic\_tac\_toe} and I highly doubt that such thing will be on the exam.
+  \item Maman 14 is just classes, nothing that's not covered on~\cref{subsec:exercise-10} and~\cref{subsec:exercise-11}.
+\end{itemize}
+
+\pagebreak
+
+\newgeometry{top=1cm, bottom=1cm, left=1.75cm, right=1.75cm}
+
+\begin{lstlisting}
+def find_missing_item_linear(lst):
+  # Find the only missing number in an arithmetic sequence of at least four numbers
+  diffs = []
+  for i in range(3):
+    diff = lst[i + 1] - lst[i]
+    if diff in (diffs):
+      correct_diff = diff
+        break
+    diffs.append(diff)
+      
+  correct_diff = (lst[-1] - lst[0]) // len(lst)
+  for i in range(len(lst) - 1):
+    if lst[i + 1] - lst[i] != correct_diff:
+      return lst[i] + correct_diff
+\end{lstlisting}
+
+\begin{lstlisting}
+def find_missing_item_logarithmic(lst): # Same as above but logarithmic.
+  diffs = ... # same as lines 3-9 in the previous function
+
+  left, right = 0, len(lst) - 1
+  while left <= right: # Find the missing number using binary search
+    mid = (left + right) // 2
+    expected = lst[0] + mid * correct_diff  # a_n=a_1+(n-1)*d
+    if lst[mid] != expected:
+      if lst[mid - 1] == lst[0] + (mid - 1) * correct_diff:
+        return expected
+      right = mid - 1
+    else:
+      left = mid + 1
+\end{lstlisting}
+
+\begin{lstlisting}
+def split_list_index(lst):
+  # Find the index to split a list into two parts with equal sums.
+  if len(lst) < 2:
+    return -1
+  total_sum, left_sum = sum(lst), 0
+  for i in range(len(lst)):
+    left_sum += lst[i]
+    total_sum -= lst[i]
+    if left_sum == total_sum:
+      return i
+  return -1
+\end{lstlisting}
+
+\begin{lstlisting}
+def max_sequence(lst, prev_last_digit=None, current_length=0, max_length=0):
+  # Return the length of the longest sequence of numbers with the same first and last digits. Assume that `lst` is not empty and contains only integers.
+  if not lst:
+    return max_length
+  first, *rest = lst
+  first_last_digit, first_first_digit  = first % 10, int(str(first)[0])
+  if prev_last_digit is None or prev_last_digit == first_first_digit:
+    current_length += 1
+    max_length = max(max_length, current_length)
+  else:
+    current_length = 1
+  return max_sequence(rest, first_last_digit, current_length, max_length)
+\end{lstlisting}
+
+\begin{lstlisting}
+def order(str1, str2):
+  # Merge two ordered strings into one ordered string. Assume that the strings contain only lowercase letters, are ordered in ascending order, and may have different lengths.
+  if not str1:
+    return str2
+  if not str2:
+    return str1
+  if str1[0] < str2[0]:
+    return str1[0] + order(str1[1:], str2)
+  return str2[0] + order(str1, str2[1:])
+\end{lstlisting}
+
+% \restoregeometry
 
 \end{document}
