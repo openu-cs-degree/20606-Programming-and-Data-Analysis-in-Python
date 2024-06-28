@@ -305,6 +305,29 @@ class TestSecretFunction(unittest.TestCase):
         self.assertTrue(secret("abc", "egi", 4))
 
 
+class TestBullsAndCows(unittest.TestCase):
+
+    def test_all_bulls(self):
+        self.assertEqual(bulls_and_cows([1, 2, 3, 4], [1, 2, 3, 4]), 8)
+
+    def test_no_matches(self):
+        self.assertEqual(bulls_and_cows([1, 2, 3, 4], [5, 6, 7, 8]), 0)
+
+    def test_only_cows(self):
+        self.assertEqual(bulls_and_cows([1, 2, 3, 4], [4, 3, 2, 1]), 4)
+
+    def test_mixed_bulls_and_cows(self):
+        self.assertEqual(bulls_and_cows([1, 2, 3, 4], [1, 3, 2, 4]), 6)
+        self.assertEqual(bulls_and_cows([7, 5, 2, 1], [3, 5, 1, 4]), 3)
+
+    def test_empty_lists(self):
+        self.assertEqual(bulls_and_cows([], []), 0)
+
+    def test_single_digit(self):
+        self.assertEqual(bulls_and_cows([1], [1]), 2)
+        self.assertEqual(bulls_and_cows([1], [2]), 0)
+
+
 class TestPrintPairs(unittest.TestCase):
     def _assert_output(self, arr, k, expected):
         captured_output = StringIO()

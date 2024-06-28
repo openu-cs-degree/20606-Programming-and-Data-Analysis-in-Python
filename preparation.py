@@ -44,6 +44,18 @@ def is_square(mat: list) -> bool:
     return True
 
 
+def index_of(num: int, lst: list) -> int:
+    """Return the index of the number in the list."""
+    if not lst:
+        return -1
+    if lst[0] == num:
+        return 0
+    index = index_of(num, lst[1:])
+    if index != -1:
+        index += 1
+    return index
+
+
 class Time:
     """A class representing time in hours and minutes."""
 
@@ -188,6 +200,24 @@ def secret(s1: str, s2: str, key: int) -> bool:
 
 
 # problem 7: bulls_and_cows
+
+
+def bulls_and_cows(number: list, guess: list) -> int:
+    """Calculate the number of bulls and cows in a guess."""
+
+    def helper(number: list, guess: list, guess_index: int) -> int:
+        if guess_index >= len(guess):
+            return 0
+        number_index = index_of(guess[guess_index], number)
+        points = 0
+        if number_index != -1:
+            points += 1
+        if number_index == guess_index:
+            points += 1
+        return points + helper(number, guess, guess_index + 1)
+
+    return helper(number, guess, 0)
+
 
 # problem 8: print_pairs
 
