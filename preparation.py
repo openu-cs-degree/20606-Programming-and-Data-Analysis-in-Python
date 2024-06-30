@@ -289,14 +289,10 @@ class Date:
     def __lt__(self, other: object) -> bool:
         if not isinstance(other, Date):
             return False
-        if self._year < other._year:
-            return True
-        if self._year > other._year:
-            return False
-        if self._month < other._month:
-            return True
-        if self._month > other._month:
-            return False
+        if self._year != other._year:
+            return self._year < other._year
+        if self._month != other._month:
+            return self._month < other._month
         return self._day < other._day
 
 
