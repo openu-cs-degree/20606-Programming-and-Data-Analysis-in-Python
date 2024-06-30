@@ -174,6 +174,24 @@ user_input = input("Enter something: ")  # Waits for user input (String)
 
 \pagebreak
 
+\section{Exceptions}
+
+\begin{lstlisting}
+def handle_exception():
+  try:
+    # Code that may raise an exception
+  except ExceptionType as e:
+    # Handle the exception, e.g., print(e)
+  except (ExceptionType1, ExceptionType2) as e:
+    # Handle multiple exceptions
+  except:
+    # Handle all other exceptions
+  else:
+    # Code that runs if no exception was raised
+  finally:
+    # Code that always runs
+\end{lstlisting}
+
 \section{Useful Functions}
 
 \begin{multicols}{2}
@@ -266,6 +284,8 @@ def max_sort(lst):
   return max_sort(lst[:-1]) + [lst[-1]]
 \end{lstlisting}
 
+\pagebreak
+
 \section{Preparation Exercises}\label{sec:preparation-exercises}
 \begin{lstlisting}
 def maximal_drop(lst):
@@ -303,8 +323,39 @@ def is_serpertine(mat):
   return True
 \end{lstlisting}
 
-\vspace{0.25cm}
+\begin{lstlisting}
+def is_identity(mat, x, size):
+  if not is_square(mat) or x < 0 or x + size > len(mat) or size < 1:
+    return False
 
+  for i in range(size):
+    for j in range(size):
+      if (i == j and mat[x + i][x + j] != 1) or (
+          i != j and mat[x + i][x + j] != 0
+      ):
+        return False
+
+  return True
+\end{lstlisting}
+
+\begin{lstlisting}
+def bulls_and_cows(number, guess):
+  def helper(number, guess, guess_index):
+      if guess_index >= len(guess):
+          return 0
+      number_index = index_of(guess[guess_index], number)
+      points = 0
+      if number_index != -1:
+          points += 1
+      if number_index == guess_index:
+          points += 1
+      return points + helper(number, guess, guess_index + 1)
+
+  return helper(number, guess, 0)
+\end{lstlisting}
+
+\newgeometry{top=1cm, bottom=1cm, left=1.75cm, right=1.75cm}
+  
 \begin{multicols}{2}
 \begin{lstlisting}
 def find_pair(sum, lst):
@@ -328,7 +379,7 @@ def max_matrix(mat):
 \end{lstlisting}
 \end{multicols}
 
-\vspace{-0.25cm}
+\vspace{-0.85cm}
 
 \begin{multicols}{2}
 \begin{lstlisting}
@@ -361,7 +412,7 @@ def secret(s1, s2, key):
 \end{lstlisting}
 \end{multicols}
 
-\vspace{-0.25cm}
+\vspace{-0.85cm}
 
 \begin{multicols}{2}
 \begin{lstlisting}
@@ -406,37 +457,6 @@ def print_pairs(arr, k):
 \end{lstlisting}
 \end{multicols}
 
-\begin{lstlisting}
-def is_identity(mat, x, size):
-  if not is_square(mat) or x < 0 or x + size > len(mat) or size < 1:
-    return False
-
-  for i in range(size):
-    for j in range(size):
-      if (i == j and mat[x + i][x + j] != 1) or (
-          i != j and mat[x + i][x + j] != 0
-      ):
-        return False
-
-  return True
-\end{lstlisting}
-
-\begin{lstlisting}
-def bulls_and_cows(number, guess):
-  def helper(number, guess, guess_index):
-      if guess_index >= len(guess):
-          return 0
-      number_index = index_of(guess[guess_index], number)
-      points = 0
-      if number_index != -1:
-          points += 1
-      if number_index == guess_index:
-          points += 1
-      return points + helper(number, guess, guess_index + 1)
-
-  return helper(number, guess, 0)
-\end{lstlisting}
-
 \subsection{Exercise 10: Coffee Shop}\label{subsec:exercise-10}
 \begin{lstlisting}
 class Date:
@@ -446,26 +466,21 @@ class Date:
     self._year = y
 
   def __eq__(self, other):
-    return (
-      isinstance(other, Date)
-      and self._year == other._year
-      and self._month == other._month
-      and self._day == other._day
-    )
+    return (isinstance(other, Date)
+            and self._year == other._year
+            and self._month == other._month
+            and self._day == other._day)
 
   def __lt__(self, other):
-    if not isinstance(other, Date):
-      return False
-    if self._year < other._year:
-      return True
-    if self._year > other._year:
-      return False
-    if self._month < other._month:
-      return True
-    if self._month > other._month:
-      return False
+    if not isinstance(other, Date): return False # shortening a bit space
+    if self._year < other._year: return True
+    if self._year > other._year: return False
+    if self._month < other._month: return True
+    if self._month > other._month: return False
     return self._day < other._day
 \end{lstlisting}
+
+\pagebreak
 
 \begin{lstlisting}
 class Order:
@@ -536,16 +551,12 @@ class ContactsList:
 \end{lstlisting}
 
 \section{Maman 13}
-Note:
+\noindent Note:
 \begin{itemize}
   \item Maman 11 is \code{bulls\_and\_cows} that's implemented in~\cref{sec:preparation-exercises}.
   \item Maman 12 is \code{tic\_tac\_toe} and I highly doubt that such thing will be on the exam.
   \item Maman 14 is just classes, nothing that's not covered on~\cref{subsec:exercise-10} and~\cref{subsec:exercise-11}.
 \end{itemize}
-
-\pagebreak
-
-\newgeometry{top=1cm, bottom=1cm, left=1.75cm, right=1.75cm}
 
 \begin{lstlisting}
 def find_missing_item_linear(lst):
@@ -621,6 +632,139 @@ def order(str1, str2):
   return str2[0] + order(str1, str2[1:])
 \end{lstlisting}
 
-% \restoregeometry
+\restoregeometry{}
+
+\section{Exam 26.06.2020}
+
+\subsection{Question 1}
+\begin{lstlisting}
+def biggest_sum(lst):
+  # Return the biggest sum of integers between 2 zeroes in `lst`.
+  max_sum, curr_sum = 0, 0
+
+  for num in lst[index_of(0, lst) + 1 :]:
+      if num == 0:
+          max_sum = max(max_sum, curr_sum)
+          curr_sum = 0
+      else:
+          curr_sum += num
+
+  return max_sum
+\end{lstlisting}
+
+\begin{lstlisting}
+def biggest_sum_row(mat):
+  # Return the index of the row with the biggest_sum.
+  if not mat:
+      return None
+
+  max_sum, max_index = 0, 0
+
+  for i in range(len(mat)):
+      curr_sum = biggest_sum(mat[i])
+      if curr_sum > max_sum:
+          max_sum = curr_sum
+          max_index = i
+
+  return max_index
+\end{lstlisting}
+
+\subsection{Question 2}
+\begin{lstlisting}
+def common(lst1, lst2):
+  # Return the common elements of both lists.
+  commons_lst = []
+  i, j = 0, 0
+  while i < len(lst1) and j < len(lst2):
+      if lst1[i] == lst2[j]:
+          commons_lst.append(lst1[i])
+          i += 1
+          j += 1
+      elif lst1[i] > lst2[j]:
+          j += 1
+      else:
+          i += 1
+
+  return commons_lst or None
+\end{lstlisting}
+
+\subsection{Question 3}
+\begin{lstlisting}
+def max_pos_seq(lst):
+  # Return the number of highest sequence of consecutive positive numbers in `lst`.
+
+  def helper(lst, curr_seq):
+      if not lst:
+          return curr_seq
+      if lst[0] <= 0:
+          return max(curr_seq, helper(lst[1:], 0))
+      return helper(lst[1:], curr_seq + 1)
+
+  return helper(lst, 0)
+\end{lstlisting}
+
+\begin{lstlisting}
+def is_palindrome(lst):
+  # Return whether all elements, as well as the list itself, are palindromes.
+  if not lst:
+      return True
+
+  begin, end = lst[0], lst[-1]
+
+  return begin == end == begin[::-1] and is_palindrome(lst[1:-1])
+\end{lstlisting}
+
+\subsection{Question 4}
+\noindent Question 4 is boring and nothing that's not covered on~\cref{subsec:exercise-10} and~\cref{subsec:exercise-11}.
+
+\subsection{Question 5}
+\begin{lstlisting}
+def mirror_list(mat):
+  # Check if the matrix is a mirror list with minimum comparisons.
+  # Note: I'm not sure if this is the best solution.
+  if not mat or not mat[0]:
+      return False
+
+  def check_equality_2(el1, el2):
+      if not isinstance(el1, str) or not isinstance(el2, str):
+          raise TypeError("The matrix must contain only strings")
+      if len(el1) != 1 or len(el2) != 1:
+          raise ValueError("The matrix must contain only single characters")
+      return el1 == el2
+
+  def check_equality_4(el1, el2, el3, el4):
+      return check_equality_2(el1, el2) and check_equality_2(el3, el4) and el2 == el3
+
+  mid_x = len(mat) // 2
+  mid_y = len(mat[0]) // 2
+  for i in range(mid_x):
+      for j in range(mid_y):
+          if not check_equality_4(mat[i][j], mat[i][~j], mat[~i][j], mat[~i][~j]):
+              return False
+
+  if len(mat) % 2 == 1:
+      for i in range(mid_x + 1):
+          if not check_equality_2(mat[mid_x][i], mat[mid_x][~i]):
+              return False
+
+  if len(mat[0]) % 2 == 1:
+      for j in range(mid_y + 1):
+          if not check_equality_2(mat[j][mid_y], mat[~j][mid_y]):
+              return False
+
+  return True
+\end{lstlisting}
+
+\section{Yo Mama Jokes}
+\noindent I have some space left, so here are some Yo Mama jokes generated by GitHub Copilot:
+\begin{itemize}
+  \item Yo mama is so fat, when she wears a yellow raincoat, people yell, ``Taxi!''
+  \item Yo mama is so stupid, she put two quarters in her ears and thought she was listening to 50 Cent.
+  \item Yo mama is so old, when she was in school, history was called current events.
+  \item Yo mama is so short, you can see her feet on her driver's license.
+  \item Yo mama is so ugly, when she walks into a bank, they turn off the cameras.
+  \item Yo mama is so poor, she walked down the road with one shoe. And if you ask her if she lost a shoe, she'd say ``No, I found one.''
+\end{itemize}
+Thank you.
 
 \end{document}
