@@ -8,7 +8,8 @@ Author: Yehonatan Simian
 |                 "One must imagine Sisyphus happy." - Albert Camus                  |
 +------------------------------------------------------------------------------------+
 
-This module contains the solutions to all 11 exam preparation problems.
+This module contains the solutions to all 11 exam preparation problems, as well as
+a solution to the 26/06/2024 exam.
 All functions have been tested using the provided test cases in preparation.test.py.
 
 Allowed functions:
@@ -385,6 +386,125 @@ class ContactsList:
         for contact in self._contacts:
             months[contact._birth._month] += 1
         return [(i, months[i]) for i in range(1, 13)]
+
+
+# exam questions 26/06/2024
+
+
+# q1a, assume the list has at least 2 zeroes
+def biggest_sum(lst):
+    """Return the biggest sum of integers between 2 zeroes in the list."""
+    max_sum = 0
+    curr_sum = 0
+
+    for num in lst[index_of(0, lst) + 1 :]:
+        if num == 0:
+            max_sum = max(max_sum, curr_sum)
+            curr_sum = 0
+        else:
+            curr_sum += num
+
+    return max_sum
+
+
+# q1b
+def biggest_sum_row(mat):
+    """Return the index of the row with the biggest sum of integers between 2 zeroes."""
+    if not mat:
+        return None
+
+    max_sum = 0
+    max_index = 0
+
+    for i in range(len(mat)):
+        curr_sum = biggest_sum(mat[i])
+        if curr_sum > max_sum:
+            max_sum = curr_sum
+            max_index = i
+
+    return max_index
+
+
+# q2
+def common(lst1, lst2):
+    """Return the common elements of both lists. If there are no such - it returns None."""
+    commons_lst = []
+    i, j = 0, 0
+    while i < len(lst1) and j < len(lst2):
+        if lst1[i] == lst2[j]:
+            commons_lst.append(lst1[i])
+            i += 1
+            j += 1
+        elif lst1[i] > lst2[j]:
+            j += 1
+        else:
+            i += 1
+
+    return commons_lst or None
+
+
+# q3a
+def max_pos_seq(lst):
+    """Return the number of highest sequence of consecutive positive numbers in the list."""
+
+    def helper(lst, curr_seq):
+        if not lst:
+            return curr_seq
+        if lst[0] <= 0:
+            return max(curr_seq, helper(lst[1:], 0))
+        return helper(lst[1:], curr_seq + 1)
+
+    return helper(lst, 0)
+
+
+# q3b
+def is_palindrome(lst):
+    """Return whether all elements, as well as the list itself, are palindromes."""
+    if not lst:
+        return True
+
+    begin, end = lst[0], lst[-1]
+
+    return begin == end == begin[::-1] and is_palindrome(lst[1:-1])
+
+
+# q4 is boring
+
+
+# q5 (Note: I'm not sure that this solution is the best one)
+def mirror_list(mat):
+    """Check if the matrix is a mirror list."""
+    if not mat or not mat[0]:
+        return False
+
+    def check_equality_2(el1, el2):
+        if not isinstance(el1, str) or not isinstance(el2, str):
+            raise TypeError("The matrix must contain only strings")
+        if len(el1) != 1 or len(el2) != 1:
+            raise ValueError("The matrix must contain only single characters")
+        return el1 == el2
+
+    def check_equality_4(el1, el2, el3, el4):
+        return check_equality_2(el1, el2) and check_equality_2(el3, el4) and el2 == el3
+
+    mid_x = len(mat) // 2
+    mid_y = len(mat[0]) // 2
+    for i in range(mid_x):
+        for j in range(mid_y):
+            if not check_equality_4(mat[i][j], mat[i][~j], mat[~i][j], mat[~i][~j]):
+                return False
+
+    if len(mat) % 2 == 1:
+        for i in range(mid_x + 1):
+            if not check_equality_2(mat[mid_x][i], mat[mid_x][~i]):
+                return False
+
+    if len(mat[0]) % 2 == 1:
+        for j in range(mid_y + 1):
+            if not check_equality_2(mat[j][mid_y], mat[~j][mid_y]):
+                return False
+
+    return True
 
 
 # epilogue: Yoni HaMelech

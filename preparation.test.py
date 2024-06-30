@@ -554,5 +554,171 @@ class TestContactsList(unittest.TestCase):
         self.assertEqual(self.contacts_list.born_in_month(), expected)
 
 
+class TestBiggestSum(unittest.TestCase):
+    def test_multiple_zeroes_with_integers_between(self):
+        self.assertEqual(biggest_sum([1, 0, 2, 3, 4, 0, 10]), 9)
+        self.assertEqual(biggest_sum([3, 0, 1, 2, 0, 4, 5, 0]), 9)
+
+    def test_starting_and_ending_with_zero(self):
+        self.assertEqual(biggest_sum([0, 1, 2, 3, 0]), 6)
+
+    def test_all_zeroes(self):
+        self.assertEqual(biggest_sum([0, 0]), 0)
+        self.assertEqual(biggest_sum([0, 0, 0]), 0)
+        self.assertEqual(biggest_sum([0, 0, 0, 0]), 0)
+
+
+class TestBiggestSumRow(unittest.TestCase):
+    def test_empty_matrix(self):
+        self.assertEqual(biggest_sum_row([]), None)
+
+    def test_zeroes_at_ends(self):
+        mat = [[0, 1, 2, 0], [0, 3, 4, 0]]
+        self.assertEqual(biggest_sum_row(mat), 1)
+
+    def test_multiple_zeroes(self):
+        mat = [[0, 1, 0, 2], [0, 3, 0, 4, 0, 5]]
+        self.assertEqual(biggest_sum_row(mat), 1)
+
+    def test_all_zeroes_row(self):
+        mat = [[0, 0, 0], [0, 0, 0]]
+        self.assertEqual(biggest_sum_row(mat), 0)
+
+    def test_single_row(self):
+        mat = [[0, 1, 2, 3, 0]]
+        self.assertEqual(biggest_sum_row(mat), 0)
+
+
+class TestCommon(unittest.TestCase):
+    def test_empty_lists(self):
+        self.assertEqual(common([], []), None)
+
+    def test_no_common_elements(self):
+        self.assertEqual(common([1, 2, 3], [4, 5, 6]), None)
+
+    def test_all_common_elements(self):
+        self.assertEqual(common([1, 2, 3], [1, 2, 3]), [1, 2, 3])
+
+    def test_some_common_elements(self):
+        self.assertEqual(common([1, 2, 3, 4], [2, 4, 6, 8]), [2, 4])
+
+    def test_common_with_duplicates(self):
+        self.assertEqual(common([1, 1, 2, 3, 4], [1, 2, 2, 4, 6]), [1, 2, 4])
+
+    def test_different_lengths(self):
+        self.assertEqual(common([1, 3, 5, 7], [1, 2, 3, 4, 5]), [1, 3, 5])
+
+
+class TestMaxPosSeq(unittest.TestCase):
+    def test_empty(self):
+        self.assertEqual(max_pos_seq([]), 0)
+
+    def test_negative(self):
+        self.assertEqual(max_pos_seq([-1, -2, -3, -4]), 0)
+
+    def test_positive(self):
+        self.assertEqual(max_pos_seq([0]), 0)
+        self.assertEqual(max_pos_seq([1]), 1)
+        self.assertEqual(max_pos_seq([1, 2, 3, 4, 5]), 5)
+
+    def test_mixed(self):
+        self.assertEqual(max_pos_seq([-1, 2, 3, -4, 5, 6]), 2)
+        self.assertEqual(max_pos_seq([-1, 2, -3, 4, 5, 6]), 3)
+        self.assertEqual(max_pos_seq([1, 2, 3, -4, -5, -6, 0]), 3)
+        self.assertEqual(max_pos_seq([1, 0, 2, 3, 0, 4, 5, 6]), 3)
+
+
+class TestIsPalindrome(unittest.TestCase):
+    def test_empty_list(self):
+        self.assertTrue(is_palindrome([]))
+
+    def test_single_element(self):
+        self.assertTrue(is_palindrome(["radar"]))
+        self.assertFalse(is_palindrome(["python"]))
+
+    def test_list_itself_not_palindrome(self):
+        self.assertFalse(is_palindrome(["radar", "level"]))
+        self.assertFalse(is_palindrome(["radar", "level", "civic"]))
+        self.assertFalse(is_palindrome(["radar", "levl", "radar"]))
+
+    def test_list_and_elements_palindromes(self):
+        self.assertTrue(is_palindrome(["civic", "level", "civic"]))
+        self.assertTrue(is_palindrome(["civic", "a", "level", "level", "a", "civic"]))
+
+
+class TestMirrorList(unittest.TestCase):
+    def test_empty(self):
+        self.assertFalse(mirror_list([]))
+
+    def test_1x1(self):
+        self.assertTrue(mirror_list([["a"]]))
+        self.assertRaises(TypeError, mirror_list, [[1]])
+        self.assertRaises(ValueError, mirror_list, [[""]])
+        self.assertRaises(ValueError, mirror_list, [["aa"]])
+
+    def test_2x1(self):
+        self.assertTrue(mirror_list([["a"], ["a"]]))
+        self.assertFalse(mirror_list([["a"], ["b"]]))
+        self.assertFalse(mirror_list([["b"], ["a"]]))
+        self.assertTrue(mirror_list([["b"], ["b"]]))
+        self.assertRaises(ValueError, mirror_list, [["a"], ["aa"]])
+        self.assertRaises(ValueError, mirror_list, [[""], ["a"]])
+        self.assertRaises(TypeError, mirror_list, [[1], ["a"]])
+        self.assertRaises(TypeError, mirror_list, [["a"], [1]])
+
+    def test_2x2(self):
+        self.assertTrue(mirror_list([["a", "a"], ["a", "a"]]))
+        self.assertFalse(mirror_list([["a", "b"], ["b", "a"]]))
+        self.assertFalse(mirror_list([["a", "b"], ["a", "b"]]))
+        self.assertFalse(mirror_list([["a", "b"], ["b", "b"]]))
+        self.assertRaises(ValueError, mirror_list, [["a", "a"], ["a", "aa"]])
+        self.assertRaises(ValueError, mirror_list, [["a", ""], ["a", "a"]])
+        self.assertRaises(TypeError, mirror_list, [[1, "a"], ["a", "a"]])
+        self.assertRaises(TypeError, mirror_list, [["a", "a"], [1, "a"]])
+
+    def test_2x3(self):
+        self.assertTrue(mirror_list([["a", "b", "a"], ["a", "b", "a"]]))
+        self.assertFalse(mirror_list([["a", "b", "a"], ["b", "a", "b"]]))
+        self.assertFalse(mirror_list([["a", "b", "a"], ["a", "a", "a"]]))
+        self.assertRaises(ValueError, mirror_list, [["a", "b", "a"], ["a", "b", "aa"]])
+        self.assertRaises(ValueError, mirror_list, [["a", "b", ""], ["a", "b", "a"]])
+        self.assertRaises(TypeError, mirror_list, [[1, "b", "a"], ["a", "b", "a"]])
+        self.assertRaises(TypeError, mirror_list, [["a", "b", "a"], ["a", 1, "a"]])
+
+    def test_staff(self):
+        self.assertTrue(
+            mirror_list(
+                [
+                    ["a", "b", "c", "c", "b", "a"],
+                    ["t", "d", "x", "x", "d", "t"],
+                    ["e", "j", "m", "m", "j", "e"],
+                    ["t", "d", "x", "x", "d", "t"],
+                    ["a", "b", "c", "c", "b", "a"],
+                ]
+            )
+        )
+        self.assertFalse(
+            mirror_list(
+                [
+                    ["a", "b", "c", "c", "b", "a"],
+                    ["n", "d", "x", "x", "d", "t"],
+                    ["e", "j", "m", "m", "j", "e"],
+                    ["t", "d", "x", "x", "d", "t"],
+                    ["a", "b", "c", "c", "b", "a"],
+                ]
+            )
+        )
+        self.assertRaises(
+            ValueError,
+            mirror_list,
+            [
+                ["a", "b", "b", "a"],
+                ["t", "d", "d", "t"],
+                ["tt", "d", "d", "t"],
+                ["a", "b", "b", "a"],
+            ],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
