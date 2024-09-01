@@ -1,6 +1,6 @@
 # Overview
 
-This repository contains auxiliary material for [20606 - Programming and Data Analysis in Python](https://www.openu.ac.il/courses/20606.htm) at the Open University of Israel which I finished with grade 100.
+This repository contains auxiliary material for [20606 - Programming and Data Analysis in Python](https://www.openu.ac.il/courses/20606.htm) at The Open University of Israel which I finished with grade 100.
 
 ## Cheatsheet
 
