@@ -11,4 +11,6 @@ The file [cheatsheet.pdf](https://github.com/yonisimian-cs-degree/20606-Programm
 The file [preparation.py](https://github.com/yonisimian-cs-degree/20606-Programming-and-Data-Analysis-in-Python/blob/master/preparation.py) contains my solutions to the preparation exercises given by the course's staff when I studied.
 The file [preparation.test.py](https://github.com/yonisimian-cs-degree/20606-Programming-and-Data-Analysis-in-Python/blob/master/preparation.test.py) contains tests for my solutions.
 
+---
+
 Yehonatan Simian, 2024 Ⓒ <yonisimian@gmail.com>
